@@ -4,6 +4,7 @@ import "./App.css";
 import CounterCard from "./CounterCard";
 import CounterButton from "./CounterButton";
 import { RecoilRoot } from "recoil";
+import EvenCard from "./EvenCard";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         </div>
         <CounterCard />
         <CounterButton />
+        <EvenCard />
       </RecoilRoot>
     </>
   );
