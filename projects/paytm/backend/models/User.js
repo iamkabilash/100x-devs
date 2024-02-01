@@ -8,10 +8,10 @@ const UserSchema = {
     trim: true,
     lowercase: true,
   },
-  password: { type: string, required: true },
-  firstName: { type: string, required: true },
-  lastName: { type: string },
+  password: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String },
 };
 
 const User = new mongoose.model("User", UserSchema);
-module.exports = { User };
+export default User;
