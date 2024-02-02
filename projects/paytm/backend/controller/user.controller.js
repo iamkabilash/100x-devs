@@ -116,3 +116,27 @@ export const updateUser = async (req, res) => {
       .json({ message: "Error while updating information" });
   }
 };
+
+export const searchUser = async (req, res) => {
+  const { filter } = req.query;
+
+  if (!filter) {
+    return res.status(411).json({ message: "Error fetching information" });
+  }
+
+  const users = await User.find(
+    {
+      $or: [
+        { firstName: { $regex: filter, $options: "i" } },
+        { lastName: { $regex: filter, $options: "i" } },
+      ],
+    },
+    "_id firstName lastName"
+  );
+
+  if (!users) {
+    return res.status(411).json({ message: "No users found" });
+  }
+
+  res.status(200).json({ users });
+};
