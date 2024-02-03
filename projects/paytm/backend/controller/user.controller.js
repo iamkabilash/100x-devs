@@ -2,6 +2,7 @@ import zod from "zod";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config.js";
 import User from "../models/User.js";
+import Account from "../models/Account.js";
 
 export const simple = async (req, res) => {
   res.json({ Hello: "Mars" });
@@ -36,6 +37,10 @@ export const signup = async (req, res) => {
 
   const user = await User.create({ username, password, firstName, lastName });
   const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+
+  // assign wallet balance on signup
+  const randomAmount = Math.floor(Math.random() * 10000);
+  await Account.create({ userId: user._id, balance: randomAmount });
 
   res.status(200).json({ message: "User created successfully", token: token });
 };
