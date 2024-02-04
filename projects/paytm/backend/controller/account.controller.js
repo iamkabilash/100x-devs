@@ -54,8 +54,8 @@ export const transferMoney = async (req, res) => {
     ).session(session);
 
     await session.commitTransaction();
-    res.status(200).json({ message: "Transfer successful" });
+    return res.status(200).json({ message: "Transfer successful" });
   } catch (error) {
-    res.status(411).json({ message: "Transfer failed" });
+    return res.status(411).json({ message: "Transfer failed" });
   }
 };

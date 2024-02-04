@@ -139,6 +139,21 @@ export const searchUser = async (req, res) => {
     "_id firstName lastName"
   );
 
+  const exceptSelf = users.filter((user) => user._id !== req.userId);
+
+  if (!exceptSelf) {
+    return res.status(411).json({ message: "No users found" });
+  }
+
+  res.status(200).json({ exceptSelf });
+};
+
+export const getOtherUsers = async (req, res) => {
+  const users = await User.find(
+    { _id: { $ne: req.userId } },
+    "_id firstName lastName"
+  );
+
   if (!users) {
     return res.status(411).json({ message: "No users found" });
   }
