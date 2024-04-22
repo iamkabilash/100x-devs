@@ -8,31 +8,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const express_1 = __importDefault(require("express"));
 const prisma = new client_1.PrismaClient();
-function insertUser(email, password, firstName, lastName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const res = yield prisma.user.create({
-            data: { email, password, firstName, lastName },
-            select: { id: true, password: true },
-        });
-        console.log(res);
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.get("/", (req, res) => {
+    res.json({ status: "Healthy server" });
+});
+app.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    yield prisma.person.create({
+        data: {
+            email: req.body.email,
+            password: req.body.password,
+            // firstName: req.body.firstName,
+        },
     });
-}
-function updateUser(email, firstName, lastName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield prisma.user.update({
-            where: {
-                email,
-            },
-            data: {
-                firstName,
-                lastName,
-            },
-            select: { id: true, firstName: true, lastName: true },
-        });
-    });
-}
+    res.json({ message: "Signup successful" });
+}));
+app.listen(5432, function () {
+    console.log("Server running");
+});
+// async function insertUser(
+//   email: string,
+//   password: string,
+//   firstName: string,
+//   lastName: string
+// ) {
+//   const res = await prisma.user.create({
+//     data: { email, password, firstName, lastName },
+//     select: { id: true, password: true },
+//   });
+//   console.log(res);
+// }
+// async function updateUser(email: string, firstName: string, lastName: string) {
+//   const res = await prisma.user.update({
+//     where: {
+//       email,
+//     },
+//     data: {
+//       firstName,
+//       lastName,
+//     },
+//     select: { id: true, firstName: true, lastName: true },
+//   });
+//   console.log(res);
+// }
 // insertUser("iamkabilash@gmail.com", "123456", "Kabi", "Lash");
-updateUser("iamkabilash@gmail.com", "Kabilash", "S");
+// updateUser("iamkabilash@gmail.com", "Kabilash", "S");
