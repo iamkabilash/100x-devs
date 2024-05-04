@@ -14,7 +14,8 @@ export default function Signin() {
         <input type="text" placeholder="username" />
         <input type="password" placeholder="password" />
         <button
-          onClick={async () => {
+          onClick={async (e) => {
+            e.preventDefault();
             const res = await signIn("credentials", {
               username: "ggg",
               password: "ggg",
